@@ -1,0 +1,20 @@
+DHCP Standalone Server Lab
+
+Environment:
+Domain: corp.mog
+DC: DC-Z (192.168.50.10)
+DHCP Server: DHCP-Z (192.168.50.20)
+Client: CL-Z1
+
+Objective:
+Move DHCP service from the domain controller to a dedicated DHCP server.
+
+Steps Completed:
+1. Built DHCP-Z server
+2. Joined DHCP-Z to domain
+3. Installed DHCP role
+4. Authorized DHCP in AD
+5. Exported DHCP from DC-Z
+6. Imported DHCP to DHCP-Z
+7. Disabled DHCP on DC-Z
+8. Verified client receives IP from DHCP-Z
