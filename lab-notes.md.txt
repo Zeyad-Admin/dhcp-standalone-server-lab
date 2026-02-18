@@ -1,0 +1,194 @@
+# 📘 Standalone DHCP Server Deployment
+> 🧪 Hands-on lab demonstrating real-world Windows Server infrastructure skills
+
+---
+
+## 🏫 Course / Program
+BCIT Technology Support Professional (TSP)
+
+---
+
+## 🎯 Objective
+Deploy a dedicated DHCP server in an Active Directory domain environment, migrate DHCP services from the domain controller, and verify automatic IP assignment for domain clients.
+
+---
+
+## 🖥️ Environment
+
+### Infrastructure
+
+| Role | Hostname | OS | IP Address |
+|------|-----------|----|------------|
+| Domain Controller | DC-Z | Windows Server | 192.168.50.10 |
+| DHCP Server | DHCP-Z | Windows Server | 192.168.50.20 |
+| Client | CL-Z1 | Windows 11 | DHCP |
+
+### Domain
+
+Domain Name: corp.mog  
+Network: 192.168.50.0/24  
+Switch: LANZ-1 (Hyper-V Internal)
+
+---
+
+## ⚙️ Technologies Used
+
+- Windows Server
+- Active Directory Domain Services (AD DS)
+- DHCP Server Role
+- DNS
+- Hyper-V Virtualization
+- Windows Client OS
+- TCP/IP Networking
+
+---
+
+## 🏗️ Implementation Steps
+
+1. Created virtual machines for DC-Z, DHCP-Z, and CL-Z1  
+2. Configured static IP addresses for infrastructure servers  
+3. Joined DHCP-Z to the corp.mog domain  
+4. Installed the DHCP Server role on DHCP-Z  
+5. Exported DHCP configuration from DC-Z  
+6. Imported DHCP configuration to DHCP-Z  
+7. Disabled DHCP service on DC-Z  
+8. Authorized DHCP-Z in Active Directory  
+9. Renewed client IP configuration to obtain address from DHCP-Z  
+10. Verified connectivity and DNS resolution  
+
+### DHCP Configuration Migration
+
+The existing DHCP configuration was exported from the domain controller (DC-Z) using PowerShell and imported into the dedicated DHCP server (DHCP-Z).
+
+This approach mirrors real-world infrastructure practices where DHCP services are migrated to standalone servers for scalability, security, and fault isolation.
+
+---
+
+## 📡 DHCP Scope Configuration
+
+| Setting | Value |
+|----------|--------|
+| Scope Range | 192.168.50.100 — 192.168.50.200 |
+| Subnet Mask | 255.255.255.0 |
+| Default Gateway | Not configured |
+| DNS Server | 192.168.50.10 |
+| DNS Domain | corp.mog |
+| Exclusions | 192.168.50.101 — 192.168.50.110 |
+
+### Scope Options Notes
+
+DHCP scope options were configured to provide DNS services and domain information to clients.  
+No default gateway was configured because the lab environment uses an isolated internal network without external routing.
+
+---
+
+## 🔐 Security / Best Practices Applied
+
+- Dedicated DHCP server separated from the domain controller  
+- DHCP authorization in Active Directory  
+- Static IP configuration for critical servers  
+- Controlled IP allocation range with exclusions  
+- Internal-only virtual network isolation  
+
+---
+
+## 🧪 Verification / Testing
+
+Commands used:
+
+ipconfig /all
+ipconfig /release
+ipconfig /renew
+ping DC-Z
+nslookup DC-Z
+
+
+Result:
+
+✔ Client successfully obtained IP from DHCP-Z  
+✔ Domain connectivity verified  
+✔ DNS name resolution functioning  
+
+---
+
+## 🖼️ Screenshots
+
+### DHCP Server Joined to Domain
+
+![DHCP Server Domain Joined](screenshots/01-dhcp-z-domain-joined.png)
+
+---
+
+### Static IP Configuration on DHCP-Z
+
+![Static IP Configuration](screenshots/02-dhcp-z-ip-config.png)
+
+---
+
+### DHCP Role Installed
+
+![DHCP Role Installed](screenshots/03-dhcp-role-installed.png)
+
+---
+
+### DHCP Export from Domain Controller (DC-Z)
+
+![DHCP Export](screenshots/05-export-dhcp-dc-z.png)
+
+---
+
+### DHCP Export File Verification
+
+![Export File Verification](screenshots/05b-export-file-verification.png)
+
+---
+
+### DHCP Service Stopped on DC-Z
+
+![DHCP Service Stopped](screenshots/06-stop-service-dhcpserver.png)
+
+---
+
+### DHCP Server Authorized in Active Directory
+
+![DHCP Authorized](screenshots/07-authorize-dhcp-z.png)
+
+---
+
+### Scope Options Configured
+
+![Scope Options](screenshots/08-scope-options-configured.png)
+
+---
+
+### Client Receiving IP from DHCP-Z
+
+![Client DHCP Test](screenshots/09-client-renew-from-dhcp-z.png)
+
+---
+
+## 🧠 Lessons Learned
+
+- Importance of DHCP authorization in Active Directory environments  
+- Benefits of separating infrastructure roles across servers  
+- Troubleshooting network configuration issues in isolated environments  
+- Interaction between DHCP, DNS, and Active Directory  
+
+---
+
+## 🚀 Real-World Application
+
+This configuration reflects enterprise best practices where DHCP services are hosted on dedicated servers rather than domain controllers. This improves scalability, security, fault isolation, and maintainability in production networks.
+
+---
+
+## 👤 Author
+
+Zeyad Al Mahmoudi  
+BCIT Technology Support Professional Program  
+
+---
+
+## 📅 Date Completed
+
+February 2026
